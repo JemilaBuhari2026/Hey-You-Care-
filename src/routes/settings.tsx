@@ -1,14 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { AppShell, PlannedBadge } from "@/components/AppShell";
+import { AppShell, Notice, PlannedBadge } from "@/components/AppShell";
+import { en } from "@/content/en";
+
+const t = en.settings;
 
 export const Route = createFileRoute("/settings")({
   head: () => ({
     meta: [
-      { title: "Privacy and settings — Hey! You Care" },
-      { name: "description", content: "How Hey! You Care handles your information, and the limits of the AI companion." },
-      { property: "og:title", content: "Privacy and settings — Hey! You Care" },
-      { property: "og:description", content: "How we handle your information, and the limits of the AI companion." },
+      { title: t.title },
+      { name: "description", content: t.description },
+      { property: "og:title", content: t.title },
+      { property: "og:description", content: t.description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -28,29 +31,34 @@ function Section({ title, planned, children }: { title: string; planned?: boolea
 function Settings() {
   return (
     <AppShell>
-      <h1 className="pt-6 text-3xl font-semibold">Privacy and settings</h1>
+      <h1 className="pt-6 text-3xl font-semibold">{t.heading}</h1>
+      <div className="mt-4">
+        <Notice tone="warn">{t.reviewNotice}</Notice>
+      </div>
       <div className="mt-6 space-y-4">
-        <Section title="Privacy">
-          <p>This early version has no accounts and collects no personal details. A full privacy policy will be published before real use.</p>
+        <Section title={t.privacy.title}>
+          <p>{t.privacy.body}</p>
         </Section>
-        <Section title="What the AI can and can't do">
-          <p>The companion uses AI. It can offer supportive conversation and practical ideas. It is not a doctor, midwife, therapist or emergency service, and it does not diagnose or treat any condition. AI can make mistakes.</p>
+        <Section title={t.aiLimits.title}>
+          <p>{t.aiLimits.body}</p>
+          <p><strong className="text-foreground">{t.aiLimits.notConnected}</strong></p>
         </Section>
-        <Section title="Your conversations">
-          <p>Conversations stay on your screen only and disappear when you end them or leave the page. They are not stored.</p>
+        <Section title={t.conversations.title}>
+          <p>{t.conversations.body}</p>
+          <p>{t.conversations.limits}</p>
         </Section>
-        <Section title="Account and data controls" planned>
-          <p>Options to manage consent, download or delete your data will appear here once accounts exist.</p>
+        <Section title={t.accountControls.title} planned>
+          <p>{t.accountControls.body}</p>
         </Section>
-        <Section title="Language" planned>
-          <label htmlFor="lang" className="block font-semibold text-foreground">Language</label>
+        <Section title={t.language.title} planned>
+          <label htmlFor="lang" className="block font-semibold text-foreground">{t.language.label}</label>
           <select id="lang" disabled className="w-full rounded-xl border border-input bg-muted px-4 py-3">
-            <option>English</option>
+            <option>{t.language.english}</option>
           </select>
-          <p>Nigerian Pidgin is planned for a later version.</p>
+          <p>{t.language.note}</p>
         </Section>
-        <Section title="Feedback or report a problem" planned>
-          <p>A way to send feedback will be added soon.</p>
+        <Section title={t.feedback.title} planned>
+          <p>{t.feedback.body}</p>
         </Section>
       </div>
     </AppShell>

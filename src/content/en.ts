@@ -178,21 +178,29 @@ export const en = {
     description:
       "How Hey! You Care handles your information, and the limits of the AI companion.",
     heading: "Privacy and settings",
+    // REVIEW REQUIRED: the privacy policy, consent wording and data-retention
+    // details below must be professionally reviewed before any real-user pilot.
+    reviewNotice:
+      "The privacy policy, consent wording and data-retention details on this page are drafts and must be reviewed before this app is used by real mothers.",
     privacy: {
       title: "Privacy",
-      body: "This early version has no accounts and collects no personal details. A full privacy policy will be published before real use.",
+      body: "This early version has no accounts and asks for no personal details. A full, reviewed privacy policy will be published before real use.",
     },
     aiLimits: {
       title: "What the AI can and can't do",
       body: "The companion uses AI. It can offer supportive conversation and practical ideas. It is not a doctor, midwife, therapist or emergency service, and it does not diagnose or treat any condition. AI can make mistakes.",
+      notConnected:
+        "The AI companion is not connected yet, so no message you type is sent anywhere or answered.",
     },
     conversations: {
       title: "Your conversations",
-      body: "Conversations stay on your screen only and disappear when you end them or leave the page. They are not stored.",
+      body: "There is no permanent conversation history. What you type stays on this screen only and disappears when you end the conversation, use Quick Exit, or leave the page.",
+      limits:
+        "We cannot promise that all traces are removed everywhere: your browser, device or network may keep their own records (for example browser history), which are outside the app's control.",
     },
     accountControls: {
       title: "Account and data controls",
-      body: "Options to manage consent, download or delete your data will appear here once accounts exist.",
+      body: "Planned, not yet built: options to manage consent, download or delete your data will appear here if accounts are introduced. The controls described here do not exist yet.",
     },
     language: {
       title: "Language",
