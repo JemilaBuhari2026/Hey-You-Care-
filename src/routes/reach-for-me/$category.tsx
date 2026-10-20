@@ -1,7 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, Notice, PlannedBadge, btnPrimary } from "@/components/AppShell";
+import { QuickExit } from "@/components/QuickExit";
 import { findCategory } from "@/lib/reach-categories";
+import { en } from "@/content/en";
+
+const t = en.reachForMe.draft;
 
 export const Route = createFileRoute("/reach-for-me/$category")({
   loader: ({ params }) => {
@@ -14,9 +18,9 @@ export const Route = createFileRoute("/reach-for-me/$category")({
     return {
       meta: [
         { title },
-        { name: "description", content: "Draft a message asking for support, in your own words." },
+        { name: "description", content: t.description },
         { property: "og:title", content: title },
-        { property: "og:description", content: "Draft a message asking for support, in your own words." },
+        { property: "og:description", content: t.description },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary" },
       ],
@@ -40,30 +44,39 @@ function Draft() {
     }
   }
 
+  function clearDraft() {
+    setWho("");
+    setText("");
+    setCopied("idle");
+  }
+
   return (
     <AppShell>
-      <Link to="/reach-for-me" className="mt-4 inline-block text-sm text-primary underline underline-offset-4">← All kinds of help</Link>
+      <div className="mt-4 flex items-center justify-between gap-2">
+        <Link to="/reach-for-me" className="inline-block text-sm text-primary underline underline-offset-4">{t.backLink}</Link>
+        <QuickExit onExit={clearDraft} />
+      </div>
       <h1 className="mt-3 text-3xl font-semibold">{category.label}</h1>
       <p className="mt-2 text-muted-foreground">{category.hint}</p>
 
       <div className="mt-6 space-y-5">
         <div>
-          <label htmlFor="who" className="block font-semibold">Who might you ask? <span className="font-normal text-muted-foreground">(optional)</span></label>
-          <input id="who" value={who} onChange={(e) => setWho(e.target.value)} placeholder="e.g. my sister, a neighbour" className="mt-1 w-full rounded-xl border border-input bg-card px-4 py-3" />
-          <p className="mt-1 text-sm text-muted-foreground">Only choose someone you feel safe with.</p>
+          <label htmlFor="who" className="block font-semibold">{t.whoLabel} <span className="font-normal text-muted-foreground">{t.whoOptional}</span></label>
+          <input id="who" value={who} onChange={(e) => setWho(e.target.value)} placeholder={t.whoPlaceholder} className="mt-1 w-full rounded-xl border border-input bg-card px-4 py-3" />
+          <p className="mt-1 text-sm text-muted-foreground">{t.whoHint}</p>
         </div>
         <div>
-          <label htmlFor="draft" className="block font-semibold">Your message</label>
-          <textarea id="draft" rows={6} value={text} onChange={(e) => { setText(e.target.value); setCopied("idle"); }} placeholder="Write it in your own words…" className="mt-1 w-full rounded-xl border border-input bg-card px-4 py-3" />
+          <label htmlFor="draft" className="block font-semibold">{t.messageLabel}</label>
+          <textarea id="draft" rows={6} value={text} onChange={(e) => { setText(e.target.value); setCopied("idle"); }} placeholder={t.messagePlaceholder} className="mt-1 w-full rounded-xl border border-input bg-card px-4 py-3" />
         </div>
         <Notice>
-          <span className="flex items-center gap-2"><strong>AI help with wording</strong> <PlannedBadge /></span>
-          Soon the companion will suggest gentle wording. For now, write it yourself — nothing here is saved or sent.
+          <span className="flex items-center gap-2"><strong>{t.aiHelpTitle}</strong> <PlannedBadge /></span>
+          {t.aiHelpBody}
         </Notice>
-        <button onClick={copy} disabled={!text.trim()} className={btnPrimary}>Copy message</button>
+        <button onClick={copy} disabled={!text.trim()} className={btnPrimary}>{t.copy}</button>
         <p aria-live="polite" className="text-sm">
-          {copied === "ok" && "Copied. Paste it wherever you choose, when you're ready."}
-          {copied === "fail" && <span className="text-destructive">Couldn't copy automatically. Please select the text and copy it.</span>}
+          {copied === "ok" && t.copiedOk}
+          {copied === "fail" && <span className="text-destructive">{t.copiedFail}</span>}
         </p>
       </div>
     </AppShell>

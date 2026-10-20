@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { en } from "@/content/en";
 
 function NotFoundComponent() {
   return (
@@ -78,10 +79,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Hey! You Care" },
-      { name: "description", content: "Feel heard. Find support. Take your next step." },
-      { property: "og:title", content: "Hey! You Care" },
-      { property: "og:description", content: "Feel heard. Find support. Take your next step." },
+      { title: en.brand.name },
+      { name: "description", content: en.brand.tagline },
+      { property: "og:title", content: en.brand.name },
+      { property: "og:description", content: en.brand.tagline },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
