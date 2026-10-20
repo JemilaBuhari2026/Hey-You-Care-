@@ -10,33 +10,141 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FindSupportRouteImport } from './routes/find-support'
+import { Route as HomeRouteImport } from './routes/home'
+import { Route as LittleLighterRouteImport } from './routes/little-lighter'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as TalkRouteImport } from './routes/talk'
+import { Route as ReachForMeIndexRouteImport } from './routes/reach-for-me/index'
+import { Route as ReachForMeCategoryRouteImport } from './routes/reach-for-me/$category'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FindSupportRoute = FindSupportRouteImport.update({
+  id: '/find-support',
+  path: '/find-support',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeRoute = HomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LittleLighterRoute = LittleLighterRouteImport.update({
+  id: '/little-lighter',
+  path: '/little-lighter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TalkRoute = TalkRouteImport.update({
+  id: '/talk',
+  path: '/talk',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReachForMeIndexRoute = ReachForMeIndexRouteImport.update({
+  id: '/reach-for-me/',
+  path: '/reach-for-me/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReachForMeCategoryRoute = ReachForMeCategoryRouteImport.update({
+  id: '/reach-for-me/$category',
+  path: '/reach-for-me/$category',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/find-support': typeof FindSupportRoute
+  '/home': typeof HomeRoute
+  '/little-lighter': typeof LittleLighterRoute
+  '/onboarding': typeof OnboardingRoute
+  '/settings': typeof SettingsRoute
+  '/talk': typeof TalkRoute
+  '/reach-for-me/$category': typeof ReachForMeCategoryRoute
+  '/reach-for-me/': typeof ReachForMeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/find-support': typeof FindSupportRoute
+  '/home': typeof HomeRoute
+  '/little-lighter': typeof LittleLighterRoute
+  '/onboarding': typeof OnboardingRoute
+  '/settings': typeof SettingsRoute
+  '/talk': typeof TalkRoute
+  '/reach-for-me/$category': typeof ReachForMeCategoryRoute
+  '/reach-for-me': typeof ReachForMeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/find-support': typeof FindSupportRoute
+  '/home': typeof HomeRoute
+  '/little-lighter': typeof LittleLighterRoute
+  '/onboarding': typeof OnboardingRoute
+  '/settings': typeof SettingsRoute
+  '/talk': typeof TalkRoute
+  '/reach-for-me/$category': typeof ReachForMeCategoryRoute
+  '/reach-for-me/': typeof ReachForMeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/find-support'
+    | '/home'
+    | '/little-lighter'
+    | '/onboarding'
+    | '/settings'
+    | '/talk'
+    | '/reach-for-me/$category'
+    | '/reach-for-me/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/find-support'
+    | '/home'
+    | '/little-lighter'
+    | '/onboarding'
+    | '/settings'
+    | '/talk'
+    | '/reach-for-me/$category'
+    | '/reach-for-me'
+  id:
+    | '__root__'
+    | '/'
+    | '/find-support'
+    | '/home'
+    | '/little-lighter'
+    | '/onboarding'
+    | '/settings'
+    | '/talk'
+    | '/reach-for-me/$category'
+    | '/reach-for-me/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FindSupportRoute: typeof FindSupportRoute
+  HomeRoute: typeof HomeRoute
+  LittleLighterRoute: typeof LittleLighterRoute
+  OnboardingRoute: typeof OnboardingRoute
+  SettingsRoute: typeof SettingsRoute
+  TalkRoute: typeof TalkRoute
+  ReachForMeCategoryRoute: typeof ReachForMeCategoryRoute
+  ReachForMeIndexRoute: typeof ReachForMeIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +156,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/find-support': {
+      id: '/find-support'
+      path: '/find-support'
+      fullPath: '/find-support'
+      preLoaderRoute: typeof FindSupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/little-lighter': {
+      id: '/little-lighter'
+      path: '/little-lighter'
+      fullPath: '/little-lighter'
+      preLoaderRoute: typeof LittleLighterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/talk': {
+      id: '/talk'
+      path: '/talk'
+      fullPath: '/talk'
+      preLoaderRoute: typeof TalkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reach-for-me/': {
+      id: '/reach-for-me/'
+      path: '/reach-for-me'
+      fullPath: '/reach-for-me/'
+      preLoaderRoute: typeof ReachForMeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reach-for-me/$category': {
+      id: '/reach-for-me/$category'
+      path: '/reach-for-me/$category'
+      fullPath: '/reach-for-me/$category'
+      preLoaderRoute: typeof ReachForMeCategoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FindSupportRoute: FindSupportRoute,
+  HomeRoute: HomeRoute,
+  LittleLighterRoute: LittleLighterRoute,
+  OnboardingRoute: OnboardingRoute,
+  SettingsRoute: SettingsRoute,
+  TalkRoute: TalkRoute,
+  ReachForMeCategoryRoute: ReachForMeCategoryRoute,
+  ReachForMeIndexRoute: ReachForMeIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
