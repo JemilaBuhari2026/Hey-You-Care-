@@ -8,3 +8,9 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Architecture rules
+- Pages live in `src/routes`; shared frame/UI primitives in `src/components/AppShell.tsx`; data and service boundaries in `src/lib` — keeps presentation separate from logic.
+- AI calls must go through `src/lib/companion.ts` → a server function; never call an AI provider from the browser (keeps keys server-side).
+- Conversations are in-memory only; do not persist transcripts without an explicit consent design.
+- Unbuilt features must be labelled with `PlannedBadge`; never fabricate replies, providers or emergency numbers.
