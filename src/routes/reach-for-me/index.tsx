@@ -1,15 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { AppShell, Notice } from "@/components/AppShell";
+import { QuickExit } from "@/components/QuickExit";
 import { REACH_CATEGORIES } from "@/lib/reach-categories";
+import { en } from "@/content/en";
+
+const t = en.reachForMe;
 
 export const Route = createFileRoute("/reach-for-me/")({
   head: () => ({
     meta: [
-      { title: "Reach for me — Hey! You Care" },
-      { name: "description", content: "Find the words to ask for practical or emotional support." },
-      { property: "og:title", content: "Reach for me — Hey! You Care" },
-      { property: "og:description", content: "Find the words to ask for practical or emotional support." },
+      { title: t.title },
+      { name: "description", content: t.description },
+      { property: "og:title", content: t.title },
+      { property: "og:description", content: t.description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -20,8 +24,11 @@ export const Route = createFileRoute("/reach-for-me/")({
 function ReachForMe() {
   return (
     <AppShell>
-      <h1 className="pt-6 text-3xl font-semibold">Reach for me</h1>
-      <p className="mt-2 text-muted-foreground">Asking for help is hard. Let's find the words together. What would help most?</p>
+      <div className="flex items-center justify-between gap-2 pt-6">
+        <h1 className="text-3xl font-semibold">{t.heading}</h1>
+        <QuickExit />
+      </div>
+      <p className="mt-2 text-muted-foreground">{t.subheading}</p>
       <ul className="mt-6 space-y-3">
         {REACH_CATEGORIES.map((c) => (
           <li key={c.slug}>
@@ -36,7 +43,7 @@ function ReachForMe() {
         ))}
       </ul>
       <div className="mt-6">
-        <Notice>Nothing is ever sent for you. You decide whether, when and to whom you share a message.</Notice>
+        <Notice>{t.notice}</Notice>
       </div>
     </AppShell>
   );
