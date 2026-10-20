@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ExitRouteImport } from './routes/exit'
 import { Route as FindSupportRouteImport } from './routes/find-support'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as LittleLighterRouteImport } from './routes/little-lighter'
@@ -22,6 +23,11 @@ import { Route as ReachForMeCategoryRouteImport } from './routes/reach-for-me/$c
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExitRoute = ExitRouteImport.update({
+  id: '/exit',
+  path: '/exit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FindSupportRoute = FindSupportRouteImport.update({
@@ -67,6 +73,7 @@ const ReachForMeCategoryRoute = ReachForMeCategoryRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/exit': typeof ExitRoute
   '/find-support': typeof FindSupportRoute
   '/home': typeof HomeRoute
   '/little-lighter': typeof LittleLighterRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/exit': typeof ExitRoute
   '/find-support': typeof FindSupportRoute
   '/home': typeof HomeRoute
   '/little-lighter': typeof LittleLighterRoute
@@ -90,6 +98,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/exit': typeof ExitRoute
   '/find-support': typeof FindSupportRoute
   '/home': typeof HomeRoute
   '/little-lighter': typeof LittleLighterRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/exit'
     | '/find-support'
     | '/home'
     | '/little-lighter'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/exit'
     | '/find-support'
     | '/home'
     | '/little-lighter'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/exit'
     | '/find-support'
     | '/home'
     | '/little-lighter'
@@ -137,6 +149,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ExitRoute: typeof ExitRoute
   FindSupportRoute: typeof FindSupportRoute
   HomeRoute: typeof HomeRoute
   LittleLighterRoute: typeof LittleLighterRoute
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exit': {
+      id: '/exit'
+      path: '/exit'
+      fullPath: '/exit'
+      preLoaderRoute: typeof ExitRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/find-support': {
@@ -217,6 +237,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ExitRoute: ExitRoute,
   FindSupportRoute: FindSupportRoute,
   HomeRoute: HomeRoute,
   LittleLighterRoute: LittleLighterRoute,
