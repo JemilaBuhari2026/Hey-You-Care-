@@ -39,6 +39,9 @@ function Settings() {
         <Section title={t.privacy.title}>
           <p>{t.privacy.body}</p>
         </Section>
+        <Section title={en.quickExit.label}>
+          <p>{en.quickExit.notErased}</p>
+        </Section>
         <Section title={t.aiLimits.title}>
           <p>{t.aiLimits.body}</p>
           <p><strong className="text-foreground">{t.aiLimits.notConnected}</strong></p>

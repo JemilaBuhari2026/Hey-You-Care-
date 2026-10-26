@@ -29,6 +29,8 @@ export const en = {
   quickExit: {
     label: "Quick Exit",
     ariaLabel: "Quick exit: leave this page immediately",
+    notErased:
+      "Quick Exit cannot erase your browser history or other records on this device. If you share this device, you may also want to clear your browser history.",
   },
   welcome: {
     title: "Hey! You Care — You don't have to carry it all alone",
@@ -214,12 +216,9 @@ export const en = {
     },
   },
   exit: {
-    title: "You have left Hey! You Care",
-    heading: "You've left the app",
-    body: "Your conversation on this screen has been cleared from this page.",
-    notErased:
-      "Quick Exit cannot erase your browser history or other records on this device. If you share this device, you may also want to clear your browser history.",
-    returnLink: "Return to the start page",
+    // Deliberately generic: the exit page must not identify this app.
+    // Keep in sync with public/exit.html (static fallback, no app bundle).
+    title: "New Tab",
   },
   safety: {
     // REVIEW REQUIRED: every entry below is a placeholder. Verified Nigerian
