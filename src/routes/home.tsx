@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { MessageSquare, Send, Leaf, MapPin } from "lucide-react";
-import { AppShell } from "@/components/AppShell";
+import { AppShell, textLink } from "@/components/AppShell";
+import { ComingSoonPill } from "@/components/ComingSoon";
 import { getHomeOptions, type HomeOptionId } from "@/lib/home-options";
 import { en } from "@/content/en";
 
@@ -33,7 +34,7 @@ function Home() {
       <h1 className="pt-4 text-4xl leading-tight">{t.heading}</h1>
       <p className="mt-2 text-muted-foreground">{t.subheading}</p>
       <ul className="mt-6 space-y-4">
-        {getHomeOptions().map(({ id, to }) => {
+        {getHomeOptions().map(({ id, to, comingSoon }) => {
           const { Icon, tint, ink } = LOOK[id];
           const copy = t.options[id];
           return (
@@ -46,7 +47,9 @@ function Home() {
                   <Icon className="h-6 w-6" aria-hidden />
                 </span>
                 <span>
-                  <span className="block font-display text-xl font-semibold text-ink">{copy.title}</span>
+                  <span className="flex flex-wrap items-center gap-2 font-display text-xl font-semibold text-ink">
+                    {copy.title} {comingSoon && <ComingSoonPill />}
+                  </span>
                   <span className="block text-muted-foreground">{copy.desc}</span>
                 </span>
               </Link>
@@ -55,6 +58,9 @@ function Home() {
         })}
       </ul>
       <p className="mt-6 text-center text-muted-foreground">{t.footnote}</p>
+      <p className="text-center">
+        <Link to="/settings" className={`${textLink} inline-flex min-h-11 items-center`}>{t.privacyLink}</Link>
+      </p>
     </AppShell>
   );
 }

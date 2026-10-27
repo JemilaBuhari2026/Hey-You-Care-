@@ -108,7 +108,7 @@ function Talk() {
 
       <form
         onSubmit={onSubmit}
-        className="fixed inset-x-0 bottom-[61px] z-30 border-t border-border bg-background"
+        className="fixed inset-x-0 bottom-[calc(var(--urgent-strip-h)+env(safe-area-inset-bottom))] z-30 border-t border-border bg-background"
       >
         <div className="mx-auto max-w-xl px-5 pb-2 pt-3">
           <div className="flex items-center gap-3">
