@@ -26,14 +26,14 @@ export function AppShell({
   showUrgent?: boolean;
 }) {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="flex h-dvh flex-col overflow-hidden bg-background text-foreground">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
       >
         {en.nav.skipToContent}
       </a>
-      <header className="sticky top-0 z-50 bg-background">
+      <header className="z-50 shrink-0 bg-background">
         <div className="mx-auto flex min-h-20 max-w-xl items-center justify-between gap-3 px-5 py-3">
         {back ? (
           <Link
@@ -52,13 +52,16 @@ export function AppShell({
         <QuickExit onExit={onExit} />
         </div>
       </header>
-      <main id="main" className={`mx-auto max-w-xl px-5 ${showUrgent ? "pb-[calc(var(--urgent-strip-h)+env(safe-area-inset-bottom)+1.5rem)]" : "pb-12"}`}>
-        {children}
-      </main>
+      {/* Own scroll area between the fixed-position header and strip, so the strip can never cover content. */}
+      <div data-scroll-area className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        <main id="main" className="mx-auto max-w-xl px-5 pb-8">
+          {children}
+        </main>
+      </div>
       {showUrgent && (
         <nav
           aria-label={en.nav.urgentStripLabel}
-          className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card pb-[env(safe-area-inset-bottom)]"
+          className="z-40 shrink-0 border-t border-border bg-card pb-[env(safe-area-inset-bottom)]"
         >
           <div className="mx-auto flex max-w-xl justify-center px-5 py-2">
             <Link
@@ -104,7 +107,7 @@ export function Card({ children, className = "" }: { children: ReactNode; classN
 }
 
 export const btnPrimary =
-  "inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-lg font-semibold text-primary-foreground transition-colors hover:bg-plum-hover disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-lg font-bold text-primary-foreground transition-colors hover:bg-plum-hover active:scale-[0.98] active:bg-plum-hover disabled:cursor-not-allowed disabled:opacity-50";
 export const btnSecondary =
   "inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full border-2 border-primary bg-card px-6 py-3 text-lg font-semibold text-primary transition-colors hover:bg-secondary";
 export const chip =
