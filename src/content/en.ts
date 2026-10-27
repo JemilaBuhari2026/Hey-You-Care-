@@ -220,6 +220,21 @@ export const en = {
     // Keep in sync with public/exit.html (static fallback, no app bundle).
     title: "New Tab",
   },
+  error: {
+    title: "This page didn't load",
+    body: "Something went wrong. You can try again or leave.",
+    tryAgain: "Try again",
+    goHome: "Go home",
+    exit: "Exit",
+    // The static fallback page (src/lib/error-page.ts) serves the same purpose
+    // without the app bundle, so its body wording is kept separately.
+    fallbackBody: "Something went wrong on our end. You can try again or leave.",
+  },
+  notFound: {
+    heading: "Page not found",
+    body: "The page you're looking for doesn't exist or has been moved.",
+    goHome: "Go home",
+  },
   safety: {
     // REVIEW REQUIRED: every entry below is a placeholder. Verified Nigerian
     // resources and professionally reviewed response wording must be supplied
