@@ -1,6 +1,11 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { ReachDraftProvider } from "@/lib/reach-draft";
 
 export const Route = createFileRoute("/reach-for-me")({
-  component: () => <ReachDraftProvider><Outlet /></ReachDraftProvider>,
+  component: ReachLayout,
 });
+
+function ReachLayout() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  return <ReachDraftProvider pathname={pathname}><Outlet /></ReachDraftProvider>;
+}

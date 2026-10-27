@@ -34,7 +34,7 @@ export function Draft() {
   const dialog = useRef<HTMLDialogElement>(null);
   const copyAttempt = useRef(0);
   useEffect(() => setCanShare(typeof navigator !== "undefined" && typeof navigator.share === "function"), []);
-  useEffect(() => () => { copyAttempt.current += 1; clear(); }, [clear]);
+  useEffect(() => () => { copyAttempt.current += 1; }, []);
   useEffect(() => { if (pendingTone) dialog.current?.showModal(); }, [pendingTone]);
 
   function rebuild(tone: ReachTone) {
