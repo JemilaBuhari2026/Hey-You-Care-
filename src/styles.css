@@ -61,11 +61,16 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-lilac: var(--lilac);
   --color-plum: var(--plum);
+  --color-plum-hover: var(--plum-hover);
+  --color-ink: var(--ink);
   --color-cream: var(--cream);
-  --color-ember: var(--ember);
-  --color-cocoa: var(--cocoa);
+  --color-peach: var(--peach);
   --color-sage: var(--sage);
-  --color-success: var(--success);
+  --color-sage-ink: var(--sage-ink);
+  --color-terracotta: var(--terracotta);
+  --color-placeholder: var(--placeholder);
+  --color-placeholder-border: var(--placeholder-border);
+  --color-placeholder-foreground: var(--placeholder-foreground);
   --shadow-soft: var(--shadow-soft);
   --font-display: "Fraunces", Georgia, serif;
   --font-sans: "Figtree", system-ui, sans-serif;
@@ -73,38 +78,45 @@
 
 :root {
   --radius: 1rem;
-  /* Brand: lilac #E8DDF0, purple #76556F, cream #FFF8F0, orange #C96F45, brown #4A302B, green #A8B69A */
-  --lilac: oklch(0.909 0.03 312);
-  --plum: oklch(0.5 0.06 340);
-  --cream: oklch(0.983 0.013 75);
-  --ember: oklch(0.63 0.12 45);
-  --cocoa: oklch(0.33 0.04 30);
-  --sage: oklch(0.74 0.05 130);
+  /* Brand palette — the only place colours are defined. */
+  --cream: #fef7f0;
+  --plum: #7f527a;
+  --plum-hover: #5e3459;
+  --ink: #3b1740;
+  --muted-ink: #5f4a60;
+  --lilac: #ebd5ee;
+  --peach: #fdebdc;
+  --sage: #e7ebdf;
+  --sage-ink: #4f6244;
+  --terracotta: #b5551f; /* icons only, never small text */
+  --placeholder: #feefdb;
+  --placeholder-border: #8a5a00;
+  --placeholder-foreground: #3d2800;
   --background: var(--cream);
-  --foreground: var(--cocoa);
-  --card: oklch(1 0.005 75);
-  --card-foreground: var(--cocoa);
-  --popover: oklch(1 0.005 75);
-  --popover-foreground: var(--cocoa);
+  --foreground: var(--ink);
+  --card: #ffffff;
+  --card-foreground: var(--ink);
+  --popover: #ffffff;
+  --popover-foreground: var(--ink);
   --primary: var(--plum);
-  --primary-foreground: var(--cream);
+  --primary-foreground: #ffffff;
   --secondary: var(--lilac);
-  --secondary-foreground: var(--cocoa);
-  --muted: oklch(0.95 0.015 75);
-  --muted-foreground: oklch(0.45 0.035 30);
-  --accent: var(--ember);
-  --accent-foreground: oklch(0.99 0.01 75);
+  --secondary-foreground: var(--ink);
+  --muted: var(--sage);
+  --muted-foreground: var(--muted-ink);
+  --accent: var(--lilac);
+  --accent-foreground: var(--ink);
   --success: var(--sage);
-  --destructive: oklch(0.52 0.17 28);
-  --destructive-foreground: var(--cream);
-  --border: oklch(0.9 0.02 60);
-  --input: oklch(0.86 0.025 60);
+  --destructive: var(--plum-hover);
+  --destructive-foreground: #ffffff;
+  --border: #eadfd6;
+  --input: var(--plum);
   --ring: var(--plum);
-  --chart-1: var(--plum); --chart-2: var(--ember); --chart-3: var(--sage); --chart-4: var(--lilac); --chart-5: var(--cocoa);
-  --sidebar: var(--cream); --sidebar-foreground: var(--cocoa); --sidebar-primary: var(--plum);
-  --sidebar-primary-foreground: var(--cream); --sidebar-accent: var(--lilac); --sidebar-accent-foreground: var(--cocoa);
+  --chart-1: var(--plum); --chart-2: var(--terracotta); --chart-3: var(--sage-ink); --chart-4: var(--lilac); --chart-5: var(--ink);
+  --sidebar: var(--cream); --sidebar-foreground: var(--ink); --sidebar-primary: var(--plum);
+  --sidebar-primary-foreground: #ffffff; --sidebar-accent: var(--lilac); --sidebar-accent-foreground: var(--ink);
   --sidebar-border: var(--border); --sidebar-ring: var(--plum);
-  --shadow-soft: 0 12px 32px -16px color-mix(in oklab, var(--cocoa) 30%, transparent);
+  --shadow-soft: 0 1px 2px color-mix(in oklab, var(--ink) 6%, transparent);
 }
 
 @layer base {
