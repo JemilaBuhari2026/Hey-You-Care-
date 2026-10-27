@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { ConsentGate } from "@/components/ConsentGate";
 import { getHomeOptions } from "@/lib/home-options";
-import { LITTLE_LIGHTER_READY, VERIFIED_RESOURCES_READY } from "@/lib/flags";
+import { LITTLE_LIGHTER_READY, SHOW_PLANNED_FEATURES, VERIFIED_RESOURCES_READY } from "@/lib/flags";
 import { showableListings } from "@/lib/support-directory";
 
 describe("Welcome consent", () => {
@@ -21,17 +21,19 @@ describe("Welcome consent", () => {
 });
 
 describe("Home cards", () => {
-  it("both flags default to off", () => {
-    expect(VERIFIED_RESOURCES_READY).toBe(false);
-    expect(LITTLE_LIGHTER_READY).toBe(false);
+  it("shows four cards when planned features are shown", () => {
+    const opts = getHomeOptions({ littleLighter: false, verifiedResources: false, showPlanned: true });
+    expect(opts.map((o) => o.id)).toEqual(["talk", "reachForMe", "littleLighter", "findSupport"]);
+    expect(opts.filter((o) => o.comingSoon).map((o) => o.id)).toEqual(["littleLighter", "findSupport"]);
   });
-  it("hides Find support and Little Lighter while their flags are off", () => {
-    const ids = getHomeOptions({ littleLighter: false, verifiedResources: false }).map((o) => o.id);
+  it("shows two cards when planned features are hidden", () => {
+    const ids = getHomeOptions({ littleLighter: false, verifiedResources: false, showPlanned: false }).map((o) => o.id);
     expect(ids).toEqual(["talk", "reachForMe"]);
   });
-  it("shows exactly three cards once Little Lighter is ready and resources are not", () => {
-    const ids = getHomeOptions({ littleLighter: true, verifiedResources: false }).map((o) => o.id);
-    expect(ids).toEqual(["talk", "reachForMe", "littleLighter"]);
+  it("readiness flags default to off and planned features default to shown", () => {
+    expect(VERIFIED_RESOURCES_READY).toBe(false);
+    expect(LITTLE_LIGHTER_READY).toBe(false);
+    expect(SHOW_PLANNED_FEATURES).toBe(true);
   });
 });
 
