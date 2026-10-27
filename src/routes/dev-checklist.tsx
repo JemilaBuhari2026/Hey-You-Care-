@@ -96,7 +96,7 @@ function DevChecklist() {
   }
 
   return (
-    <AppShell wide>
+    <AppShell>
       <h1 className="pt-6 text-3xl font-semibold">Developer review checklist</h1>
       <p className="mt-2 text-sm text-muted-foreground">
         Internal development reference. Not linked from the user interface and not rendered in

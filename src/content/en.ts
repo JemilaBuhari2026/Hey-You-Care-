@@ -17,9 +17,10 @@ export const en = {
   },
   nav: {
     home: "Home",
-    settings: "Privacy and settings",
+    back: "Back",
     skipToContent: "Skip to content",
-    mainNavLabel: "Main",
+    urgentHelp: "Need urgent help?",
+    urgentStripLabel: "Urgent help",
   },
   common: {
     plannedBadge: "Planned",
@@ -27,87 +28,61 @@ export const en = {
     backToHome: "Back to home",
   },
   quickExit: {
-    label: "Quick Exit",
+    label: "Quick exit",
     ariaLabel: "Quick exit: leave this page immediately",
     notErased:
-      "Quick Exit cannot erase your browser history or other records on this device. If you share this device, you may also want to clear your browser history.",
+      "Quick exit cannot erase your browser history or other records on this device. If you share this device, you may also want to clear your browser history.",
   },
   welcome: {
-    title: "Hey! You Care — You don't have to carry it all alone",
+    title: "Hey! You Care — A few quiet minutes, when you need them",
     description:
-      "A supportive companion in development for pregnant women and new mothers. Feel heard, find support, take your next step.",
-    headlineA: "You don't have to carry it all",
-    headlineAccent: "alone.",
-    intro:
-      "Hey! You Care is a gentle companion for pregnancy and your baby's first year. Talk things through, find a manageable next step, and put into words the help you need from the people around you.",
-    ctaPrimary: "Let's talk",
-    ctaSecondary: "Explore how it works",
-    goodToKnow:
-      "Good to know: the companion uses AI. It is not a doctor, midwife, therapist or emergency service.",
-    privacyLink: "How we handle your privacy",
-  },
-  onboarding: {
-    title: "How Hey! You Care works",
-    description:
-      "What the Hey! You Care companion can and cannot do, and how you stay in control.",
-    heading: "Before we begin",
-    subheading: "A few honest things about how this works.",
-    points: [
-      ["It uses AI", "You'll be talking with an AI companion, not a person."],
-      [
-        "It offers support and next steps",
-        "Supportive conversation and practical ideas you can choose to try.",
-      ],
-      [
-        "It is not a professional",
-        "It is not a doctor, midwife, therapist or mental health professional, and does not diagnose.",
-      ],
-      [
-        "You control what you share",
-        "Share only what feels right. You can stop at any time.",
-      ],
-      [
-        "Not for emergencies",
-        "If you or your baby are in danger, contact local emergency services or go to the nearest hospital.",
-      ],
-    ] as const,
-    // REVIEW REQUIRED: placeholder until the privacy policy and consent flow are finalised.
-    privacyNotice:
-      "Privacy notice (placeholder): the full privacy policy and consent options will appear here once our data handling is finalised. Nothing you tick here is saved yet.",
-    confirmLabel:
-      "I understand the companion uses AI and is not a medical or emergency service.",
+      "A supportive companion in development for pregnancy and the first year after birth.",
+    headline: "A few quiet minutes, when you need them.",
+    intro: "For pregnancy and the first year after birth.",
+    beforeTitle: "Before you start",
+    beforeAi:
+      "You're talking with an AI, not a person. It isn't a doctor, midwife, therapist or emergency service.",
+    // REVIEW REQUIRED: true only once the AI is connected; the second sentence says so.
+    beforeData:
+      "When the AI is connected, your words will be sent to an AI provider to write each reply. It isn't connected yet. This app keeps no chat history.",
+    privacyLink: "How your data is handled",
+    confirmLabel: "I understand this is an AI and can't replace professional or emergency help.",
     continue: "Continue",
     continueHint: "Tick the box above to continue.",
+    notNow: "Not now",
   },
   home: {
     title: "Home — Hey! You Care",
-    description: "Talk, lighten the load, ask for help, or find support.",
-    heading: "How are you, really?",
-    subheading: "Choose whatever feels right today. There's no wrong place to start.",
+    description: "Talk, ask someone for help, or take a short pause.",
+    heading: "What would help right now?",
+    subheading: "Pick one, or just start. You can leave any time.",
+    footnote: "No account. Nothing is saved when you leave.",
+    logoAlt: "Hey You Care",
     options: {
-      talk: { title: "Talk to me", desc: "Say what's on your mind." },
-      littleLighter: {
-        title: "Little Lighter",
-        desc: "Short activities to ease the mental load.",
-      },
-      reachForMe: { title: "Reach for me", desc: "Find the words to ask for help." },
-      findSupport: {
-        title: "Find support",
-        desc: "Verified human and professional support.",
-      },
+      talk: { title: "Talk to me", desc: "Say what's on your mind. Short and private." },
+      reachForMe: { title: "Reach for me", desc: "Find the words to ask someone for help." },
+      littleLighter: { title: "Little Lighter", desc: "Short, gentle activities to pause with." },
+      findSupport: { title: "Find support", desc: "Services we have checked." },
     },
   },
   talk: {
     title: "Talk to me — Hey! You Care",
     description: "A supportive conversation space with an AI companion.",
     heading: "Talk to me",
-    endConversation: "End conversation",
+    endConversation: "End chat",
     aiBanner:
-      "You're talking with an AI companion — not a person or professional. Not for emergencies.",
+      "You're talking with an AI. It can't replace a doctor, midwife, therapist or emergency help.",
     conversationLabel: "Conversation",
-    emptyHeading: "What's on your mind?",
-    emptyBody:
-      "Big or small, say it however it comes out. This conversation isn't saved.",
+    // Fixed app wording, not an AI reply.
+    opener: "I'm here. You can tell me what's on your mind, or choose what would help.",
+    choicesLabel: "Ways to start",
+    choices: [
+      "I just want to talk",
+      "Help me make sense of it",
+      "Work out a next step",
+      "Help me ask someone for support",
+    ] as const,
+    appSaid: "Hey You Care says:",
     youSaid: "You said:",
     companionSaid: "Companion said:",
     sending: "Sending…",
@@ -115,10 +90,9 @@ export const en = {
       "Development preview: the AI companion isn't connected yet, so there's no reply. Your message was not sent anywhere or stored.",
     sendError: "Something went wrong. Your message couldn't be sent. Please try again.",
     messageLabel: "Your message",
-    messagePlaceholder: "Type your message…",
-    voiceLabel: "Voice input, planned",
-    voice: "Voice",
+    messagePlaceholder: "Type here",
     send: "Send",
+    notSaved: "Not saved. Leaving clears this chat.",
   },
   littleLighter: {
     title: "Little Lighter — Hey! You Care",
@@ -140,79 +114,97 @@ export const en = {
     ] as const,
     notice: "These are wellbeing activities, not clinical treatments.",
   },
+  safetyGuidance: {
+    title: "Safety guidance — Hey! You Care",
+    description: "Layout placeholder for reviewed safety guidance.",
+    heading: "Safety guidance",
+    placeholderStrong: "Placeholder, not yet reviewed.",
+    placeholderBody:
+      "This screen shows the layout only. Wording and contacts must come from a qualified reviewer before any real user sees it.",
+    reviewedTitle: "Reviewed message",
+    reviewedBody:
+      "[Calm, reviewed wording goes here. It encourages immediate human or emergency help and makes no promises.]",
+    contactsTitle: "Verified contacts",
+    contactName: "[Service name]",
+    contactRoute: "[Verified number or official route]",
+    contactSource: "Source: [source]. Last verified: [date].",
+    contactsNote: "Only contacts that have been checked are ever shown here.",
+    categoriesTitle: "Situations this will cover",
+    endChat: "End chat",
+  },
   reachForMe: {
     title: "Reach for me — Hey! You Care",
     description: "Find the words to ask for practical or emotional support.",
     heading: "Reach for me",
-    subheading:
-      "Asking for help is hard. Let's find the words together. What would help most?",
-    notice:
-      "Nothing is ever sent for you. You decide whether, when and to whom you share a message.",
+    subheading: "What kind of help would you like to ask for? Choosing is optional.",
+    legend: "Kind of help",
+    continue: "Continue",
     draft: {
+      title: "Your draft — Reach for me",
       description: "Draft a message asking for support, in your own words.",
-      backLink: "← All kinds of help",
-      whoLabel: "Who might you ask?",
-      whoOptional: "(optional)",
-      whoPlaceholder: "e.g. my sister, a neighbour",
-      whoHint: "Only choose someone you feel safe with.",
-      messageLabel: "Your message",
+      heading: "Your draft",
+      subheading: "Change it however you like. Nothing is sent from here.",
+      toneLabel: "Tone",
+      tones: ["Gentle and personal", "Short and direct", "Warm but firm", "Practical and specific"] as const,
+      toneNote: "Suggested wording in your chosen tone is planned. For now, write it yourself.",
+      messageLabel: "Message draft",
       messagePlaceholder: "Write it in your own words…",
-      aiHelpTitle: "AI help with wording",
-      aiHelpBody:
-        "Soon the companion will suggest gentle wording. For now, write it yourself — nothing here is saved or sent.",
       copy: "Copy message",
-      copiedOk: "Copied. Paste it wherever you choose, when you're ready.",
+      copiedOk: "Copied",
       copiedFail: "Couldn't copy automatically. Please select the text and copy it.",
+      share: "Share message",
+      shareUnavailable: "Sharing isn't available on this device. Use Copy message instead.",
+      anotherVersion: "Another version",
+      cancel: "Cancel",
+      footnote: "You choose who gets this. It isn't saved or sent for you.",
     },
   },
   findSupport: {
     title: "Find support — Hey! You Care",
-    description: "A planned directory of verified human and professional support.",
+    description: "Verified human and professional support services.",
     heading: "Find support",
-    body: "We're working on a list of verified human and professional support. We'll only add services once they've been checked, so this section is empty for now.",
-    dangerNotice:
-      "If you or your baby are in immediate danger, contact local emergency services or go to the nearest hospital or health centre.",
-    meantimeNotice:
-      "In the meantime, your antenatal clinic, midwife, doctor or local primary health centre can help point you to support.",
+    body: "Only services we have checked. Cost, availability and waiting times can vary.",
+    locationLabel: "Where are you? (you choose, we don't track it)",
+    locationPlaceholder: "Choose your state",
+    filtersLabel: "Type of support",
+    filters: {
+      emotional: "Emotional support",
+      pregnancy: "Pregnancy and birth",
+      practical: "Practical help",
+    },
+    source: "Source",
+    lastVerified: "Last verified",
+    reportProblem: "Report a problem with this listing",
+    empty: "No checked services match yet.",
   },
   settings: {
-    title: "Privacy and settings — Hey! You Care",
-    description:
-      "How Hey! You Care handles your information, and the limits of the AI companion.",
-    heading: "Privacy and settings",
-    // REVIEW REQUIRED: the privacy policy, consent wording and data-retention
-    // details below must be professionally reviewed before any real-user pilot.
-    reviewNotice:
-      "The privacy policy, consent wording and data-retention details on this page are drafts and must be reviewed before this app is used by real mothers.",
-    privacy: {
-      title: "Privacy",
-      body: "This early version has no accounts and asks for no personal details. A full, reviewed privacy policy will be published before real use.",
+    title: "Privacy and data — Hey! You Care",
+    description: "What happens to what you write, in plain words.",
+    heading: "Privacy and data",
+    subheading: "What happens to what you write, in plain words.",
+    // REVIEW REQUIRED: privacy policy, consent wording and data-retention
+    // details must be professionally reviewed before any real-user pilot.
+    draftStrong: "Draft wording, pending review.",
+    draftBody: "It must match how the app is really built before anyone uses it.",
+    keeps: {
+      title: "What the app keeps",
+      body: "No account and no chat history. When you leave, the chat is cleared.",
     },
-    aiLimits: {
-      title: "What the AI can and can't do",
-      body: "The companion uses AI. It can offer supportive conversation and practical ideas. It is not a doctor, midwife, therapist or emergency service, and it does not diagnose or treat any condition. AI can make mistakes.",
-      notConnected:
-        "The AI companion is not connected yet, so no message you type is sent anywhere or answered.",
+    handles: {
+      title: "Who handles your words",
+      body: "The AI isn't connected yet, so your messages aren't sent anywhere. Once it is, your messages will go to an AI provider to write each reply: [provider, location and retention, to be confirmed in writing]. Hosting: [provider, to be confirmed].",
     },
-    conversations: {
-      title: "Your conversations",
-      body: "There is no permanent conversation history. What you type stays on this screen only and disappears when you end the conversation, use Quick Exit, or leave the page.",
-      limits:
-        "We cannot promise that all traces are removed everywhere: your browser, device or network may keep their own records (for example browser history), which are outside the app's control.",
+    counts: {
+      title: "What we count",
+      body: "Nothing is counted at the moment. If counting is added, it will only be simple counts, like \"a chat started\". Never what you wrote.",
     },
-    accountControls: {
-      title: "Account and data controls",
-      body: "Planned, not yet built: options to manage consent, download or delete your data will appear here if accounts are introduced. The controls described here do not exist yet.",
+    quickExit: {
+      title: "Quick exit",
+      body: "It clears the screen and leaves. It can't erase your browser history. On a shared phone, clear that yourself.",
     },
-    language: {
-      title: "Language",
-      label: "Language",
-      english: "English",
-      note: "Nigerian Pidgin is planned for a later version.",
-    },
-    feedback: {
-      title: "Feedback or report a problem",
-      body: "A way to send feedback will be added soon.",
+    deletion: {
+      title: "Questions or deletion",
+      body: "[Privacy contact]. [How to ask for deletion, to be confirmed.]",
     },
   },
   exit: {

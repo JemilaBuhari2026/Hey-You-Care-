@@ -14,3 +14,4 @@
 - AI calls must go through `src/lib/companion.ts` → a server function; never call an AI provider from the browser (keeps keys server-side).
 - Conversations are in-memory only; do not persist transcripts without an explicit consent design.
 - Unbuilt features must be labelled with `PlannedBadge`; never fabricate replies, providers or emergency numbers.
+- Unready features are hidden behind constants in `src/lib/flags.ts` (default false) and their routes redirect to Home — so nothing unverified is reachable.

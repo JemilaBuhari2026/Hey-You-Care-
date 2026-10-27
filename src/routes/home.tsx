@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MessageCircleHeart, Feather, HandHeart, MapPin } from "lucide-react";
-import { AppShell, PlannedBadge } from "@/components/AppShell";
+import { MessageSquare, Send, Leaf, MapPin } from "lucide-react";
+import { AppShell } from "@/components/AppShell";
+import { getHomeOptions, type HomeOptionId } from "@/lib/home-options";
 import { en } from "@/content/en";
 
 const t = en.home;
@@ -19,35 +20,41 @@ export const Route = createFileRoute("/home")({
   component: Home,
 });
 
-const OPTIONS = [
-  { to: "/talk", ...t.options.talk, Icon: MessageCircleHeart, tint: "bg-secondary" },
-  { to: "/little-lighter", ...t.options.littleLighter, Icon: Feather, tint: "bg-success/40" },
-  { to: "/reach-for-me", ...t.options.reachForMe, Icon: HandHeart, tint: "bg-accent/15" },
-  { to: "/find-support", ...t.options.findSupport, Icon: MapPin, tint: "bg-muted", planned: true },
-] as const;
+const LOOK: Record<HomeOptionId, { Icon: typeof Leaf; tint: string; ink: string }> = {
+  talk: { Icon: MessageSquare, tint: "bg-lilac", ink: "text-primary" },
+  reachForMe: { Icon: Send, tint: "bg-peach", ink: "text-terracotta" },
+  littleLighter: { Icon: Leaf, tint: "bg-sage", ink: "text-sage-ink" },
+  findSupport: { Icon: MapPin, tint: "bg-lilac", ink: "text-primary" },
+};
 
 function Home() {
   return (
-    <AppShell>
-      <h1 className="pt-6 text-3xl font-semibold">{t.heading}</h1>
+    <AppShell showLogo>
+      <h1 className="pt-4 text-4xl leading-tight">{t.heading}</h1>
       <p className="mt-2 text-muted-foreground">{t.subheading}</p>
-      <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-        {OPTIONS.map(({ to, title, desc, Icon, tint, ...rest }) => (
-          <li key={to}>
-            <Link to={to} className="flex h-full gap-4 rounded-3xl bg-card p-5 shadow-soft transition-transform hover:-translate-y-0.5">
-              <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${tint} text-primary`}>
-                <Icon className="h-6 w-6" aria-hidden />
-              </span>
-              <span>
-                <span className="flex items-center gap-2 font-display text-lg font-semibold">
-                  {title} {"planned" in rest && <PlannedBadge />}
+      <ul className="mt-6 space-y-4">
+        {getHomeOptions().map(({ id, to }) => {
+          const { Icon, tint, ink } = LOOK[id];
+          const copy = t.options[id];
+          return (
+            <li key={id}>
+              <Link
+                to={to}
+                className="flex items-center gap-5 rounded-3xl border border-border bg-card p-5 transition-colors hover:bg-secondary/40"
+              >
+                <span className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full ${tint} ${ink}`}>
+                  <Icon className="h-6 w-6" aria-hidden />
                 </span>
-                <span className="block text-sm text-muted-foreground">{desc}</span>
-              </span>
-            </Link>
-          </li>
-        ))}
+                <span>
+                  <span className="block font-display text-xl font-semibold text-ink">{copy.title}</span>
+                  <span className="block text-muted-foreground">{copy.desc}</span>
+                </span>
+              </Link>
+            </li>
+          );
+        })}
       </ul>
+      <p className="mt-6 text-center text-muted-foreground">{t.footnote}</p>
     </AppShell>
   );
 }
