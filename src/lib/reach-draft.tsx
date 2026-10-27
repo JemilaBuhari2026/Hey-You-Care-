@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
 import { en } from "@/content/en";
 
 export const REACH_NOTE_LIMIT = 300;
@@ -23,7 +23,8 @@ const ReachContext = createContext<{
 /** Scoped to the Reach parent route: leaving it discards all visit data. */
 export function ReachDraftProvider({ children }: { children: ReactNode }) {
   const [visit, setVisit] = useState(emptyVisit);
-  return <ReachContext.Provider value={{ visit, update: (values) => setVisit((current) => ({ ...current, ...values })), clear: () => setVisit(emptyVisit()) }}>{children}</ReachContext.Provider>;
+  const clear = useCallback(() => setVisit(emptyVisit()), []);
+  return <ReachContext.Provider value={{ visit, update: (values) => setVisit((current) => ({ ...current, ...values })), clear }}>{children}</ReachContext.Provider>;
 }
 export function useReachDraft() {
   const value = useContext(ReachContext);

@@ -1,14 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { AppShell, PlannedBadge, btnPrimary, btnSecondary, chip, textLink } from "@/components/AppShell";
-import { findCategory } from "@/lib/reach-categories";
+import { useEffect, useRef, useState } from "react";
+import { Copy, Share2 } from "lucide-react";
+import { AppShell, textLink } from "@/components/AppShell";
+import { ReachButton } from "@/components/ReachButton";
+import { buildReachDraft, useReachDraft, type ReachTone } from "@/lib/reach-draft";
+import { AI_DRAFTS_ENABLED } from "@/lib/flags";
 import { en } from "@/content/en";
 
 const t = en.reachForMe.draft;
 
 export const Route = createFileRoute("/reach-for-me/draft")({
-  validateSearch: (s: Record<string, unknown>): { category?: string } =>
-    typeof s["category"] === "string" && findCategory(s["category"]) ? { category: s["category"] } : {},
   head: () => ({
     meta: [
       { title: t.title },
@@ -22,28 +23,41 @@ export const Route = createFileRoute("/reach-for-me/draft")({
   component: Draft,
 });
 
-type Tone = (typeof t.tones)[number];
-
 /** Nothing here is ever sent automatically. Copy and Share only act on the user's tap. */
-function Draft() {
-  const [tone, setTone] = useState<Tone>(t.tones[0]);
-  const [text, setText] = useState("");
-  const [status, setStatus] = useState<"idle" | "copied" | "copyFail" | "noShare">("idle");
+export function Draft() {
+  const { visit, update, clear } = useReachDraft();
+  const text = visit.text || buildReachDraft(visit.category, visit.tone, visit.note);
+  const [edited, setEdited] = useState(false);
+  const [pendingTone, setPendingTone] = useState<ReachTone>();
+  const [status, setStatus] = useState<"idle" | "copied" | "copyFail">("idle");
   const [canShare, setCanShare] = useState(false);
-
+  const dialog = useRef<HTMLDialogElement>(null);
+  const copyAttempt = useRef(0);
   useEffect(() => setCanShare(typeof navigator !== "undefined" && typeof navigator.share === "function"), []);
+  useEffect(() => () => { copyAttempt.current += 1; clear(); }, [clear]);
+  useEffect(() => { if (pendingTone) dialog.current?.showModal(); }, [pendingTone]);
+
+  function rebuild(tone: ReachTone) {
+    copyAttempt.current += 1;
+    update({ tone, text: buildReachDraft(visit.category, tone, visit.note) });
+    setEdited(false);
+    setStatus("idle");
+    setPendingTone(undefined);
+  }
 
   async function copy() {
+    const attempt = ++copyAttempt.current;
+    setStatus("idle");
     try {
       await navigator.clipboard.writeText(text);
-      setStatus("copied");
+      if (attempt === copyAttempt.current) setStatus("copied");
     } catch {
-      setStatus("copyFail");
+      if (attempt === copyAttempt.current) setStatus("copyFail");
     }
   }
 
   async function share() {
-    if (!canShare) return setStatus("noShare");
+    if (!canShare) return;
     try {
       await navigator.share({ text });
     } catch {
@@ -51,24 +65,21 @@ function Draft() {
     }
   }
 
-  function clearDraft() {
-    setText("");
-    setStatus("idle");
-  }
-
   return (
-    <AppShell back={{ to: "/reach-for-me", label: en.nav.back }} onExit={clearDraft}>
+    <AppShell back={{ to: "/reach-for-me", label: en.nav.back }} onExit={clear}>
       <h1 className="pt-2 text-4xl">{t.heading}</h1>
       <p className="mt-2 text-muted-foreground">{t.subheading}</p>
 
       <div role="group" aria-label={t.toneLabel} className="mt-5 flex flex-wrap gap-3">
         {t.tones.map((x) => (
-          <button key={x} type="button" aria-pressed={tone === x} onClick={() => setTone(x)} className={chip}>
+          <ReachButton key={x} variant="tone" aria-pressed={visit.tone === x} onClick={() => {
+            if (x === visit.tone) return;
+            if (edited) setPendingTone(x); else rebuild(x);
+          }}>
             {x}
-          </button>
+          </ReachButton>
         ))}
       </div>
-      <p className="mt-2 text-sm text-muted-foreground">{t.toneNote}</p>
 
       <label htmlFor="draft" className="mt-5 block text-sm font-semibold text-sage-ink">{t.messageLabel}</label>
       <textarea
@@ -76,33 +87,37 @@ function Draft() {
         rows={7}
         value={text}
         onChange={(e) => {
-          setText(e.target.value);
+          copyAttempt.current += 1;
+          update({ text: e.target.value });
+          setEdited(true);
           setStatus("idle");
         }}
         placeholder={t.messagePlaceholder}
         className="mt-1 w-full rounded-2xl border-2 border-input bg-card px-5 py-4 text-lg placeholder:text-muted-foreground"
       />
+      {/\[[^\]]*\]/.test(text) && <p className="mt-2 text-sm text-muted-foreground">{t.brackets}</p>}
 
       <div className="mt-4 space-y-3">
-        <button type="button" onClick={copy} disabled={!text.trim()} className={btnPrimary}>{t.copy}</button>
-        <button type="button" onClick={share} disabled={!text.trim()} className={`${btnSecondary} disabled:opacity-50`}>{t.share}</button>
+        <ReachButton onClick={copy} disabled={!text.trim()}><Copy className="h-5 w-5" aria-hidden />{t.copy}</ReachButton>
+        {canShare && <ReachButton variant="secondary" onClick={share} disabled={!text.trim()}><Share2 className="h-5 w-5" aria-hidden />{t.share}</ReachButton>}
       </div>
       <p aria-live="polite" className="mt-2 min-h-6 text-center text-sm font-semibold">
         {status === "copied" && t.copiedOk}
         {status === "copyFail" && t.copiedFail}
-        {status === "noShare" && t.shareUnavailable}
       </p>
 
       <div className="mt-2 flex items-center justify-between gap-3">
-        <span className="inline-flex min-h-11 items-center gap-2 text-muted-foreground">
-          <button type="button" disabled className="font-semibold underline underline-offset-4 disabled:cursor-not-allowed">
-            {t.anotherVersion}
-          </button>
-          <PlannedBadge />
-        </span>
-        <Link to="/reach-for-me" className={`${textLink} inline-flex min-h-11 items-center`}>{t.cancel}</Link>
+        {AI_DRAFTS_ENABLED && <ReachButton variant="tone" disabled>{t.anotherVersion}</ReachButton>}
+        <Link to="/reach-for-me" onClick={clear} className={`${textLink} inline-flex min-h-11 items-center`}>{t.cancel}</Link>
       </div>
       <p className="mt-4 text-center text-sm text-muted-foreground">{t.footnote}</p>
+      {pendingTone && <dialog ref={dialog} aria-labelledby="replace-title" onCancel={() => setPendingTone(undefined)} className="m-auto w-[calc(100%-2rem)] max-w-sm rounded-lg border border-border bg-card p-6 text-foreground">
+        <h2 id="replace-title" className="text-xl">{t.replacePrompt}</h2>
+        <div className="mt-5 space-y-3">
+          <ReachButton onClick={() => rebuild(pendingTone)}>{t.replace}</ReachButton>
+          <ReachButton variant="secondary" autoFocus onClick={() => setPendingTone(undefined)}>{t.keepMine}</ReachButton>
+        </div>
+      </dialog>}
     </AppShell>
   );
 }
