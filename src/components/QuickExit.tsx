@@ -13,7 +13,7 @@ export const EXIT_URL = "/exit.html";
  * - Its accessible description says it cannot erase browser history; the
  *   Privacy and data screen says the same visibly.
  */
-export function QuickExit({ onExit }: { onExit?: () => void }) {
+export function QuickExit({ onExit }: { onExit?: (() => void) | undefined }) {
   function activate() {
     try {
       onExit?.();

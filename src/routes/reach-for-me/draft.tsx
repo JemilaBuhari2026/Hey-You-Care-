@@ -8,7 +8,7 @@ const t = en.reachForMe.draft;
 
 export const Route = createFileRoute("/reach-for-me/draft")({
   validateSearch: (s: Record<string, unknown>): { category?: string } =>
-    typeof s.category === "string" && findCategory(s.category) ? { category: s.category } : {},
+    typeof s["category"] === "string" && findCategory(s["category"]) ? { category: s["category"] } : {},
   head: () => ({
     meta: [
       { title: t.title },

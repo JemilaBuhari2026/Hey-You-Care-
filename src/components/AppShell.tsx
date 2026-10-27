@@ -5,7 +5,7 @@ import { en } from "@/content/en";
 import { QuickExit } from "@/components/QuickExit";
 import logo from "@/assets/illus-logo.png.asset.json";
 
-type Back = { to: string; label: string; params?: Record<string, string> };
+type Back = { to: string; label: string };
 
 /**
  * Shared page frame: skip link, top bar (logo or back link + Quick exit in the
@@ -22,7 +22,7 @@ export function AppShell({
   children: ReactNode;
   back?: Back;
   showLogo?: boolean;
-  onExit?: () => void;
+  onExit?: (() => void) | undefined;
   showUrgent?: boolean;
 }) {
   return (
@@ -37,7 +37,6 @@ export function AppShell({
         {back ? (
           <Link
             to={back.to}
-            params={back.params}
             className="-ml-2 inline-flex min-h-11 items-center gap-1 rounded-full px-2 font-medium text-primary hover:text-plum-hover"
           >
             <ChevronLeft className="h-5 w-5" aria-hidden /> {back.label}
