@@ -67,7 +67,7 @@ describe("Reach controls", () => {
     fireEvent.click(screen.getByRole("button", { name: "Keep mine" }));
     expect(screen.getByLabelText("Message draft")).toHaveValue("My own request");
     fireEvent.click(screen.getByRole("button", { name: "Warm but firm" }));
-    fireEvent.click(screen.getByRole("button", { name: "Replace", exact: true }));
+    fireEvent.click(screen.getByRole("button", { name: /^Replace$/ }));
     expect(screen.getByLabelText("Message draft")).toHaveValue(en.reachForMe.templates.other[2]);
   });
   it("allows a user to erase all text", () => { mount(<Draft />); edit(""); expect(screen.getByLabelText("Message draft")).toHaveValue(""); });
@@ -110,7 +110,11 @@ describe("Reach controls", () => {
     fireEvent.change(screen.getByLabelText("Anything you want to add? (optional)"), { target: { value: "Private note" } });
     edit("Private draft");
     if (action === "Cancel") fireEvent.click(screen.getByRole("link", { name: "Cancel" }));
-    else fireEvent.click(screen.getAllByRole("button", { name: "Quick exit" })[1]);
+    else {
+      const exit = screen.getAllByRole("button", { name: "Quick exit" }).at(-1);
+      if (!exit) throw new Error("Missing Quick exit");
+      fireEvent.click(exit);
+    }
     expect(state().note).toBe(""); expect(state().text).toBe("");
   });
   it("neither screen writes storage, logs, or makes feature requests", () => {
