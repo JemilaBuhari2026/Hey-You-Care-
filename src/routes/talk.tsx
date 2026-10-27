@@ -1,10 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useRef, useState, type FormEvent } from "react";
-import { Mic, Send, X, Loader2 } from "lucide-react";
-import { AppShell, Notice, PlannedBadge } from "@/components/AppShell";
-import { QuickExit } from "@/components/QuickExit";
+import { createFileRoute } from "@tanstack/react-router";
+import { useState, type FormEvent } from "react";
+import { ArrowRight, Loader2 } from "lucide-react";
+import { AppShell, Notice, chip } from "@/components/AppShell";
 import { CompanionNotConnectedError, sendToCompanion, type ChatMessage } from "@/lib/companion";
 import { en } from "@/content/en";
+import cup from "@/assets/illus-cup.png.asset.json";
 
 const t = en.talk;
 
@@ -29,11 +29,9 @@ function Talk() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
   const [status, setStatus] = useState<Status>("idle");
-  const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  async function onSubmit(e: FormEvent) {
-    e.preventDefault();
-    const text = draft.trim();
+  async function send(raw: string) {
+    const text = raw.trim();
     if (!text || status === "loading") return;
     const next = [...messages, { id: crypto.randomUUID(), role: "user" as const, text }];
     setMessages(next);
@@ -48,6 +46,11 @@ function Talk() {
     }
   }
 
+  function onSubmit(e: FormEvent) {
+    e.preventDefault();
+    void send(draft);
+  }
+
   function clearConversation() {
     setMessages([]);
     setDraft("");
@@ -55,31 +58,41 @@ function Talk() {
   }
 
   return (
-    <AppShell>
-      <div className="flex items-center justify-between gap-2 pt-4">
-        <h1 className="text-2xl font-semibold">{t.heading}</h1>
-        <div className="flex items-center gap-2">
-          {messages.length > 0 && (
-            <button onClick={clearConversation} className="inline-flex items-center gap-1 rounded-full border border-border px-4 py-2 text-sm font-semibold hover:bg-secondary">
-              <X className="h-4 w-4" aria-hidden /> {t.endConversation}
-            </button>
-          )}
-          <QuickExit onExit={clearConversation} />
-        </div>
+    <AppShell back={{ to: "/home", label: en.nav.home }} onExit={clearConversation}>
+      <div className="flex items-center justify-between gap-3 pt-2">
+        <h1 className="text-3xl">{t.heading}</h1>
+        <button type="button" onClick={clearConversation} className={chip}>
+          {t.endConversation}
+        </button>
       </div>
-      <p className="mt-2 rounded-full bg-secondary px-4 py-1.5 text-xs font-medium">
-        {t.aiBanner}
-      </p>
+      <div className="mt-4">
+        <Notice>{t.aiBanner}</Notice>
+      </div>
 
-      <section aria-label={t.conversationLabel} aria-live="polite" className="mt-6 min-h-64 space-y-3">
+      <section aria-label={t.conversationLabel} aria-live="polite" className="mt-6 space-y-3 pb-40">
+        <img src={cup.url} alt="" className="mx-auto w-[104px]" />
+        <div className="max-w-[90%] rounded-3xl border border-border bg-card px-5 py-4">
+          <span className="sr-only">{t.appSaid}</span>
+          {t.opener}
+        </div>
         {messages.length === 0 && (
-          <div className="rounded-3xl bg-card p-6 text-center shadow-soft">
-            <h2 className="text-xl font-semibold">{t.emptyHeading}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{t.emptyBody}</p>
-          </div>
+          <ul aria-label={t.choicesLabel} className="flex flex-col items-start gap-3 pt-1">
+            {t.choices.map((c) => (
+              <li key={c}>
+                <button type="button" className={chip} onClick={() => void send(c)}>
+                  {c}
+                </button>
+              </li>
+            ))}
+          </ul>
         )}
         {messages.map((m) => (
-          <div key={m.id} className={`max-w-[85%] rounded-3xl px-4 py-3 ${m.role === "user" ? "ml-auto bg-primary text-primary-foreground" : "bg-card shadow-soft"}`}>
+          <div
+            key={m.id}
+            className={`max-w-[85%] rounded-3xl px-5 py-3 ${
+              m.role === "user" ? "ml-auto bg-primary text-primary-foreground" : "border border-border bg-card"
+            }`}
+          >
             <span className="sr-only">{m.role === "user" ? t.youSaid : t.companionSaid}</span>
             {m.text}
           </div>
@@ -89,44 +102,37 @@ function Talk() {
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> {t.sending}
           </p>
         )}
-        {status === "not_connected" && (
-          <Notice>
-            <strong>{t.notConnected.split(":")[0]}:</strong>{t.notConnected.split(":").slice(1).join(":")}
-          </Notice>
-        )}
-        {status === "error" && (
-          <Notice tone="warn">
-            <strong>{t.sendError.split(".")[0]}.</strong>{t.sendError.split(".").slice(1).join(".")}
-          </Notice>
-        )}
+        {status === "not_connected" && <Notice>{t.notConnected}</Notice>}
+        {status === "error" && <Notice tone="warn">{t.sendError}</Notice>}
       </section>
 
-      <form onSubmit={onSubmit} className="sticky bottom-3 mt-6 rounded-3xl bg-card p-3 shadow-soft">
-        <label htmlFor="msg" className="sr-only">{t.messageLabel}</label>
-        <textarea
-          id="msg"
-          ref={inputRef}
-          rows={2}
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) onSubmit(e);
-          }}
-          placeholder={t.messagePlaceholder}
-          className="w-full resize-none rounded-2xl bg-transparent p-2 outline-none"
-        />
-        <div className="flex items-center justify-between">
-          <button type="button" disabled className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm text-muted-foreground" aria-label={t.voiceLabel}>
-            <Mic className="h-4 w-4" aria-hidden /> {t.voice} <PlannedBadge />
-          </button>
-          <button type="submit" disabled={!draft.trim() || status === "loading"} className="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 font-semibold text-primary-foreground disabled:opacity-50">
-            {t.send} <Send className="h-4 w-4" aria-hidden />
-          </button>
+      <form
+        onSubmit={onSubmit}
+        className="fixed inset-x-0 bottom-[61px] z-30 border-t border-border bg-background"
+      >
+        <div className="mx-auto max-w-xl px-5 pb-2 pt-3">
+          <div className="flex items-center gap-3">
+            <label htmlFor="msg" className="sr-only">{t.messageLabel}</label>
+            <input
+              id="msg"
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+              placeholder={t.messagePlaceholder}
+              autoComplete="off"
+              className="min-h-12 w-full rounded-full border-2 border-input bg-card px-5 placeholder:text-muted-foreground"
+            />
+            <button
+              type="submit"
+              aria-label={t.send}
+              disabled={!draft.trim() || status === "loading"}
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground hover:bg-plum-hover disabled:opacity-50"
+            >
+              <ArrowRight className="h-5 w-5" aria-hidden />
+            </button>
+          </div>
+          <p className="mt-1 text-center text-sm text-muted-foreground">{t.notSaved}</p>
         </div>
       </form>
-      <p className="mt-4 text-center text-sm">
-        <Link to="/home" className="text-primary underline underline-offset-4">{en.common.backToHome}</Link>
-      </p>
     </AppShell>
   );
 }

@@ -1,7 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronRight } from "lucide-react";
-import { AppShell, Notice } from "@/components/AppShell";
-import { QuickExit } from "@/components/QuickExit";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { AppShell, btnPrimary } from "@/components/AppShell";
 import { REACH_CATEGORIES } from "@/lib/reach-categories";
 import { en } from "@/content/en";
 
@@ -22,29 +21,40 @@ export const Route = createFileRoute("/reach-for-me/")({
 });
 
 function ReachForMe() {
+  const [choice, setChoice] = useState<string>();
+  const navigate = useNavigate();
   return (
-    <AppShell>
-      <div className="flex items-center justify-between gap-2 pt-6">
-        <h1 className="text-3xl font-semibold">{t.heading}</h1>
-        <QuickExit />
-      </div>
+    <AppShell back={{ to: "/home", label: en.nav.home }} onExit={() => setChoice(undefined)}>
+      <h1 className="pt-2 text-4xl">{t.heading}</h1>
       <p className="mt-2 text-muted-foreground">{t.subheading}</p>
-      <ul className="mt-6 space-y-3">
-        {REACH_CATEGORIES.map((c) => (
-          <li key={c.slug}>
-            <Link to="/reach-for-me/$category" params={{ category: c.slug }} className="flex items-center justify-between gap-3 rounded-2xl bg-card p-4 shadow-soft hover:bg-secondary/50">
-              <span>
-                <span className="block font-semibold">{c.label}</span>
-                <span className="block text-sm text-muted-foreground">{c.hint}</span>
-              </span>
-              <ChevronRight className="h-5 w-5 shrink-0 text-primary" aria-hidden />
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-6">
-        <Notice>{t.notice}</Notice>
-      </div>
+      <fieldset className="mt-5">
+        <legend className="sr-only">{t.legend}</legend>
+        <div className="space-y-3">
+          {REACH_CATEGORIES.map((c) => (
+            <label
+              key={c.slug}
+              className="flex min-h-14 cursor-pointer items-center gap-4 rounded-2xl border border-border bg-card px-5 py-3 has-[:checked]:border-primary has-[:checked]:bg-secondary/40"
+            >
+              <input
+                type="radio"
+                name="help"
+                value={c.slug}
+                checked={choice === c.slug}
+                onChange={() => setChoice(c.slug)}
+                className="h-6 w-6 shrink-0 accent-primary"
+              />
+              <span>{c.label}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      <button
+        type="button"
+        className={`${btnPrimary} mt-5`}
+        onClick={() => navigate({ to: "/reach-for-me/draft", search: choice ? { category: choice } : {} })}
+      >
+        {t.continue}
+      </button>
     </AppShell>
   );
 }
