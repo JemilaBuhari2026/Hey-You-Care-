@@ -16,10 +16,12 @@ import { Route as FindSupportRouteImport } from './routes/find-support'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as LittleLighterRouteImport } from './routes/little-lighter'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as SafetyGuidanceRouteImport } from './routes/safety-guidance'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as TalkRouteImport } from './routes/talk'
 import { Route as ReachForMeIndexRouteImport } from './routes/reach-for-me/index'
 import { Route as ReachForMeCategoryRouteImport } from './routes/reach-for-me/$category'
+import { Route as ReachForMeDraftRouteImport } from './routes/reach-for-me/draft'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -56,6 +58,11 @@ const OnboardingRoute = OnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SafetyGuidanceRoute = SafetyGuidanceRouteImport.update({
+  id: '/safety-guidance',
+  path: '/safety-guidance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -76,6 +83,11 @@ const ReachForMeCategoryRoute = ReachForMeCategoryRouteImport.update({
   path: '/reach-for-me/$category',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReachForMeDraftRoute = ReachForMeDraftRouteImport.update({
+  id: '/reach-for-me/draft',
+  path: '/reach-for-me/draft',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -85,9 +97,11 @@ export interface FileRoutesByFullPath {
   '/home': typeof HomeRoute
   '/little-lighter': typeof LittleLighterRoute
   '/onboarding': typeof OnboardingRoute
+  '/safety-guidance': typeof SafetyGuidanceRoute
   '/settings': typeof SettingsRoute
   '/talk': typeof TalkRoute
   '/reach-for-me/$category': typeof ReachForMeCategoryRoute
+  '/reach-for-me/draft': typeof ReachForMeDraftRoute
   '/reach-for-me/': typeof ReachForMeIndexRoute
 }
 export interface FileRoutesByTo {
@@ -98,9 +112,11 @@ export interface FileRoutesByTo {
   '/home': typeof HomeRoute
   '/little-lighter': typeof LittleLighterRoute
   '/onboarding': typeof OnboardingRoute
+  '/safety-guidance': typeof SafetyGuidanceRoute
   '/settings': typeof SettingsRoute
   '/talk': typeof TalkRoute
   '/reach-for-me/$category': typeof ReachForMeCategoryRoute
+  '/reach-for-me/draft': typeof ReachForMeDraftRoute
   '/reach-for-me': typeof ReachForMeIndexRoute
 }
 export interface FileRoutesById {
@@ -112,9 +128,11 @@ export interface FileRoutesById {
   '/home': typeof HomeRoute
   '/little-lighter': typeof LittleLighterRoute
   '/onboarding': typeof OnboardingRoute
+  '/safety-guidance': typeof SafetyGuidanceRoute
   '/settings': typeof SettingsRoute
   '/talk': typeof TalkRoute
   '/reach-for-me/$category': typeof ReachForMeCategoryRoute
+  '/reach-for-me/draft': typeof ReachForMeDraftRoute
   '/reach-for-me/': typeof ReachForMeIndexRoute
 }
 export interface FileRouteTypes {
@@ -127,9 +145,11 @@ export interface FileRouteTypes {
     | '/home'
     | '/little-lighter'
     | '/onboarding'
+    | '/safety-guidance'
     | '/settings'
     | '/talk'
     | '/reach-for-me/$category'
+    | '/reach-for-me/draft'
     | '/reach-for-me/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -140,9 +160,11 @@ export interface FileRouteTypes {
     | '/home'
     | '/little-lighter'
     | '/onboarding'
+    | '/safety-guidance'
     | '/settings'
     | '/talk'
     | '/reach-for-me/$category'
+    | '/reach-for-me/draft'
     | '/reach-for-me'
   id:
     | '__root__'
@@ -153,9 +175,11 @@ export interface FileRouteTypes {
     | '/home'
     | '/little-lighter'
     | '/onboarding'
+    | '/safety-guidance'
     | '/settings'
     | '/talk'
     | '/reach-for-me/$category'
+    | '/reach-for-me/draft'
     | '/reach-for-me/'
   fileRoutesById: FileRoutesById
 }
@@ -167,9 +191,11 @@ export interface RootRouteChildren {
   HomeRoute: typeof HomeRoute
   LittleLighterRoute: typeof LittleLighterRoute
   OnboardingRoute: typeof OnboardingRoute
+  SafetyGuidanceRoute: typeof SafetyGuidanceRoute
   SettingsRoute: typeof SettingsRoute
   TalkRoute: typeof TalkRoute
   ReachForMeCategoryRoute: typeof ReachForMeCategoryRoute
+  ReachForMeDraftRoute: typeof ReachForMeDraftRoute
   ReachForMeIndexRoute: typeof ReachForMeIndexRoute
 }
 
@@ -224,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/safety-guidance': {
+      id: '/safety-guidance'
+      path: '/safety-guidance'
+      fullPath: '/safety-guidance'
+      preLoaderRoute: typeof SafetyGuidanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -252,6 +285,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReachForMeCategoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reach-for-me/draft': {
+      id: '/reach-for-me/draft'
+      path: '/reach-for-me/draft'
+      fullPath: '/reach-for-me/draft'
+      preLoaderRoute: typeof ReachForMeDraftRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -263,9 +303,11 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRoute,
   LittleLighterRoute: LittleLighterRoute,
   OnboardingRoute: OnboardingRoute,
+  SafetyGuidanceRoute: SafetyGuidanceRoute,
   SettingsRoute: SettingsRoute,
   TalkRoute: TalkRoute,
   ReachForMeCategoryRoute: ReachForMeCategoryRoute,
+  ReachForMeDraftRoute: ReachForMeDraftRoute,
   ReachForMeIndexRoute: ReachForMeIndexRoute,
 }
 export const routeTree = rootRouteImport
