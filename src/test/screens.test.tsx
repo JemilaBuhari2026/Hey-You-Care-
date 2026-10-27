@@ -1,20 +1,29 @@
 import { describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
-import { ConsentGate } from "@/components/ConsentGate";
+import { ConsentGate, continueDisabled, continueEnabled } from "@/components/ConsentGate";
 import { getHomeOptions } from "@/lib/home-options";
 import { LITTLE_LIGHTER_READY, SHOW_PLANNED_FEATURES, VERIFIED_RESOURCES_READY } from "@/lib/flags";
 import { showableListings } from "@/lib/support-directory";
 
 describe("Welcome consent", () => {
-  it("keeps Continue disabled until the checkbox is ticked", () => {
+  it("ticking enables Continue and restyles it; unticking disables it again", () => {
     const onContinue = vi.fn();
     render(<ConsentGate onContinue={onContinue} />);
     const btn = screen.getByRole("button", { name: "Continue" });
-    expect(btn).toBeDisabled();
+    const box = screen.getByRole("checkbox");
+    expect(btn).toHaveAttribute("aria-disabled", "true");
+    expect(btn.className).toBe(continueDisabled);
     fireEvent.click(btn);
     expect(onContinue).not.toHaveBeenCalled();
-    fireEvent.click(screen.getByRole("checkbox"));
-    expect(btn).toBeEnabled();
+
+    fireEvent.click(box);
+    expect(btn).toHaveAttribute("aria-disabled", "false");
+    expect(btn.className).toBe(continueEnabled);
+    fireEvent.click(btn);
+    expect(onContinue).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(box);
+    expect(btn).toHaveAttribute("aria-disabled", "true");
     fireEvent.click(btn);
     expect(onContinue).toHaveBeenCalledTimes(1);
   });

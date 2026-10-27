@@ -1,16 +1,32 @@
-import { useState } from "react";
-import { btnPrimary } from "@/components/AppShell";
+import { useEffect, useRef, useState } from "react";
 import { en } from "@/content/en";
 
 const t = en.welcome;
 
-/** Required acknowledgement: Continue stays disabled until the box is ticked. Nothing is stored. */
+const base =
+  "mt-6 inline-flex min-h-14 w-full items-center justify-center rounded-full px-6 py-3 text-lg font-bold transition-colors";
+export const continueEnabled = `${base} bg-primary text-primary-foreground hover:bg-plum-hover active:scale-[0.98] active:bg-plum-hover`;
+export const continueDisabled = `${base} cursor-not-allowed bg-secondary text-muted-foreground`;
+
+/**
+ * Required acknowledgement. The button's state comes straight from the
+ * checkbox. It uses aria-disabled (not the disabled attribute) so it stays
+ * focusable; taps are ignored while unticked. Nothing is stored.
+ */
 export function ConsentGate({ onContinue }: { onContinue: () => void }) {
   const [understood, setUnderstood] = useState(false);
+  const boxRef = useRef<HTMLInputElement>(null);
+
+  // A box ticked before the page finished loading on a slow phone is picked up here.
+  useEffect(() => {
+    if (boxRef.current?.checked) setUnderstood(true);
+  }, []);
+
   return (
     <div>
       <label className="flex min-h-11 items-start gap-3">
         <input
+          ref={boxRef}
           type="checkbox"
           checked={understood}
           onChange={(e) => setUnderstood(e.target.checked)}
@@ -20,10 +36,12 @@ export function ConsentGate({ onContinue }: { onContinue: () => void }) {
       </label>
       <button
         type="button"
-        className={`${btnPrimary} mt-6`}
-        disabled={!understood}
+        aria-disabled={!understood}
         aria-describedby={understood ? undefined : "need-confirm"}
-        onClick={onContinue}
+        className={understood ? continueEnabled : continueDisabled}
+        onClick={() => {
+          if (understood) onContinue();
+        }}
       >
         {t.continue}
       </button>

@@ -69,7 +69,7 @@ function Talk() {
         <Notice>{t.aiBanner}</Notice>
       </div>
 
-      <section aria-label={t.conversationLabel} aria-live="polite" className="mt-6 space-y-3 pb-40">
+      <section aria-label={t.conversationLabel} aria-live="polite" className="mt-6 space-y-3 pb-4">
         <img src={cup.url} alt="" className="mx-auto w-[104px]" />
         <div className="max-w-[90%] rounded-3xl border border-border bg-card px-5 py-4">
           <span className="sr-only">{t.appSaid}</span>
@@ -108,7 +108,7 @@ function Talk() {
 
       <form
         onSubmit={onSubmit}
-        className="fixed inset-x-0 bottom-[calc(var(--urgent-strip-h)+env(safe-area-inset-bottom))] z-30 border-t border-border bg-background"
+        className="sticky bottom-0 z-30 -mx-5 -mb-8 border-t border-border bg-background"
       >
         <div className="mx-auto max-w-xl px-5 pb-2 pt-3">
           <div className="flex items-center gap-3">
