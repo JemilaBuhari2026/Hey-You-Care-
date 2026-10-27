@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { StrictMode } from "react";
 import { en } from "@/content/en";
 import { REACH_CATEGORIES } from "@/lib/reach-categories";
 import { AI_DRAFTS_ENABLED } from "@/lib/flags";
@@ -71,6 +72,21 @@ describe("Reach controls", () => {
     expect(screen.getByLabelText("Message draft")).toHaveValue(en.reachForMe.templates.other[2]);
   });
   it("allows a user to erase all text", () => { mount(<Draft />); edit(""); expect(screen.getByLabelText("Message draft")).toHaveValue(""); });
+  it("preserves the note when the draft mounts in StrictMode, then clears on Back", () => {
+    const view = render(<StrictMode><ReachDraftProvider pathname="/reach-for-me"><ReachForMe /><StateProbe /></ReachDraftProvider></StrictMode>);
+    fireEvent.change(screen.getByLabelText("Anything you want to add? (optional)"), { target: { value: "Synthetic note" } });
+    fireEvent.click(screen.getByRole("button", { name: "Continue" }));
+    view.rerender(<StrictMode><ReachDraftProvider pathname="/reach-for-me/draft"><Draft /><StateProbe /></ReachDraftProvider></StrictMode>);
+    expect(screen.getByLabelText("Message draft")).toHaveValue(`${en.reachForMe.templates.other[0]}\n\nHere's a bit more: Synthetic note`);
+    view.rerender(<StrictMode><ReachDraftProvider pathname="/reach-for-me"><ReachForMe /><StateProbe /></ReachDraftProvider></StrictMode>);
+    expect(state().note).toBe(""); expect(state().text).toBe("");
+  });
+  it("discards the visit when the parent unmounts", () => {
+    const view = mount(<ReachForMe />);
+    fireEvent.change(screen.getByLabelText("Anything you want to add? (optional)"), { target: { value: "Synthetic note" } });
+    view.unmount(); mount(<ReachForMe />);
+    expect(state().note).toBe("");
+  });
   it("shows Copied only after success", async () => {
     let resolve: (() => void) | undefined;
     vi.mocked(navigator.clipboard.writeText).mockImplementation(() => new Promise<void>((done) => { resolve = done; }));

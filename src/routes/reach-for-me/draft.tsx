@@ -95,7 +95,7 @@ export function Draft() {
         placeholder={t.messagePlaceholder}
         className="mt-1 w-full rounded-2xl border-2 border-input bg-card px-5 py-4 text-lg placeholder:text-muted-foreground"
       />
-      {/\[[^\]]*\]/.test(text) && <p className="mt-2 text-sm text-muted-foreground">{t.brackets}</p>}
+      {/[\[\]]/.test(text) && <p className="mt-2 text-sm text-muted-foreground">{t.brackets}</p>}
 
       <div className="mt-4 space-y-3">
         <ReachButton onClick={copy} disabled={!text.trim()}><Copy className="h-5 w-5" aria-hidden />{t.copy}</ReachButton>
