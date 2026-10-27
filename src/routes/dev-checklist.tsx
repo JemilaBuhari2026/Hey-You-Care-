@@ -41,7 +41,7 @@ const SECTIONS: { title: string; items: string[] }[] = [
     title: "Analytics and error reporting",
     items: [
       "No third-party analytics are installed.",
-      "src/lib/lovable-error-reporting.ts forwards render errors to the Lovable editor's telemetry hooks; these hooks exist only inside the Lovable preview environment, not in a published deployment.",
+      "src/lib/safe-log.ts is the only error logger: it prints a fixed code and timestamp, never messages or user text.",
       "Decision needed before pilot: whether any error reporting or analytics will be enabled in production, and under what consent.",
     ],
   },
