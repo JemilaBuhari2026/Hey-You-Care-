@@ -1,13 +1,14 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { AppShell, Card, Notice, PlannedBadge } from "@/components/AppShell";
-import { LITTLE_LIGHTER_READY } from "@/lib/flags";
+import { LITTLE_LIGHTER_READY, SHOW_PLANNED_FEATURES } from "@/lib/flags";
+import { ComingSoon } from "@/components/ComingSoon";
 import { en } from "@/content/en";
 
 const t = en.littleLighter;
 
 export const Route = createFileRoute("/little-lighter")({
   beforeLoad: () => {
-    if (!LITTLE_LIGHTER_READY) throw redirect({ to: "/home" });
+    if (!LITTLE_LIGHTER_READY && !SHOW_PLANNED_FEATURES) throw redirect({ to: "/home" });
   },
   head: () => ({
     meta: [
@@ -25,6 +26,8 @@ export const Route = createFileRoute("/little-lighter")({
 const TINTS = ["bg-sage", "bg-peach"] as const;
 
 function LittleLighter() {
+  // One-line switch: flip LITTLE_LIGHTER_READY in src/lib/flags.ts to show the real page.
+  if (!LITTLE_LIGHTER_READY) return <ComingSoon title={en.littleLighter.heading} body={en.comingSoon.littleLighter} />;
   return (
     <AppShell back={{ to: "/home", label: en.nav.home }}>
       <h1 className="pt-2 text-4xl">{t.heading}</h1>

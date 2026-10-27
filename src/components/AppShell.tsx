@@ -33,7 +33,8 @@ export function AppShell({
       >
         {en.nav.skipToContent}
       </a>
-      <header className="mx-auto flex min-h-20 max-w-xl items-center justify-between gap-3 px-5 pt-4">
+      <header className="sticky top-0 z-50 bg-background">
+        <div className="mx-auto flex min-h-20 max-w-xl items-center justify-between gap-3 px-5 py-3">
         {back ? (
           <Link
             to={back.to}
@@ -42,21 +43,22 @@ export function AppShell({
             <ChevronLeft className="h-5 w-5" aria-hidden /> {back.label}
           </Link>
         ) : showLogo ? (
-          <Link to="/home" aria-label={en.home.logoAlt} className="inline-flex min-h-11 items-center">
+          <Link to="/" aria-label={en.home.logoAlt} className="inline-flex min-h-11 items-center">
             <img src={logo.url} alt="" className="h-[46px] w-auto" />
           </Link>
         ) : (
           <span />
         )}
         <QuickExit onExit={onExit} />
+        </div>
       </header>
-      <main id="main" className={`mx-auto max-w-xl px-5 ${showUrgent ? "pb-28" : "pb-12"}`}>
+      <main id="main" className={`mx-auto max-w-xl px-5 ${showUrgent ? "pb-[calc(var(--urgent-strip-h)+env(safe-area-inset-bottom)+1.5rem)]" : "pb-12"}`}>
         {children}
       </main>
       {showUrgent && (
         <nav
           aria-label={en.nav.urgentStripLabel}
-          className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card"
+          className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card pb-[env(safe-area-inset-bottom)]"
         >
           <div className="mx-auto flex max-w-xl justify-center px-5 py-2">
             <Link

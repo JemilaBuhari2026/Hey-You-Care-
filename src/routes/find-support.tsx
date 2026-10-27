@@ -1,7 +1,8 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppShell, Card, chip } from "@/components/AppShell";
-import { VERIFIED_RESOURCES_READY } from "@/lib/flags";
+import { VERIFIED_RESOURCES_READY, SHOW_PLANNED_FEATURES } from "@/lib/flags";
+import { ComingSoon } from "@/components/ComingSoon";
 import { NIGERIAN_STATES, SUPPORT_LISTINGS, showableListings, type SupportType } from "@/lib/support-directory";
 import { en } from "@/content/en";
 import pin from "@/assets/illus-pin.png.asset.json";
@@ -10,7 +11,7 @@ const t = en.findSupport;
 
 export const Route = createFileRoute("/find-support")({
   beforeLoad: () => {
-    if (!VERIFIED_RESOURCES_READY) throw redirect({ to: "/home" });
+    if (!VERIFIED_RESOURCES_READY && !SHOW_PLANNED_FEATURES) throw redirect({ to: "/home" });
   },
   head: () => ({
     meta: [
@@ -28,6 +29,8 @@ export const Route = createFileRoute("/find-support")({
 const TYPES = Object.keys(t.filters) as SupportType[];
 
 function FindSupport() {
+  // One-line switch: flip VERIFIED_RESOURCES_READY in src/lib/flags.ts to show the real page.
+  if (!VERIFIED_RESOURCES_READY) return <ComingSoon title={en.findSupport.heading} body={en.comingSoon.findSupport} />;
   const [state, setState] = useState("");
   const [type, setType] = useState<SupportType>("emotional");
   const listings = showableListings(SUPPORT_LISTINGS).filter(

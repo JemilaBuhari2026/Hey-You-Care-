@@ -78,6 +78,7 @@
 
 :root {
   --radius: 1rem;
+  --urgent-strip-h: 61px; /* height of the fixed "Need urgent help?" strip */
   /* Brand palette — the only place colours are defined. */
   --cream: #fef7f0;
   --plum: #7f527a;

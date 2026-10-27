@@ -25,7 +25,7 @@ function Welcome() {
   const navigate = useNavigate();
   return (
     <AppShell>
-      <img src={welcomeArt.url} alt="" className="mx-auto w-[190px]" />
+      <img src={welcomeArt.url} alt="" className="mx-auto w-[150px]" />
       <h1 className="mt-6 text-4xl leading-tight">{t.headline}</h1>
       <p className="mt-4 text-muted-foreground">{t.intro}</p>
       <Card className="mt-5 space-y-2">

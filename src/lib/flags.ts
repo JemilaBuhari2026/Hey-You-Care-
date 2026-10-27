@@ -6,3 +6,5 @@
  */
 export const VERIFIED_RESOURCES_READY = false;
 export const LITTLE_LIGHTER_READY = false;
+/** Show not-yet-ready features on Home as "Coming soon" cards with an honest placeholder page. */
+export const SHOW_PLANNED_FEATURES = true;

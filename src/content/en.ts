@@ -57,6 +57,8 @@ export const en = {
     heading: "What would help right now?",
     subheading: "Pick one, or just start. You can leave any time.",
     footnote: "No account. Nothing is saved when you leave.",
+    privacyLink: "Privacy and data",
+    comingSoon: "Coming soon",
     logoAlt: "Hey You Care",
     options: {
       talk: { title: "Talk to me", desc: "Say what's on your mind. Short and private." },
@@ -113,6 +115,10 @@ export const en = {
       },
     ] as const,
     notice: "These are wellbeing activities, not clinical treatments.",
+  },
+  comingSoon: {
+    littleLighter: "Short, gentle activities to pause with. Not built yet.",
+    findSupport: "A list of services we have checked ourselves. Nothing is listed until it has been verified.",
   },
   safetyGuidance: {
     title: "Safety guidance — Hey! You Care",
