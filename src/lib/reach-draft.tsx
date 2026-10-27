@@ -12,8 +12,8 @@ export function buildReachDraft(category: string | undefined, tone: ReachTone, n
   return extra ? `${template}\n\n${en.reachForMe.noteSuffix} ${extra}` : template;
 }
 
-type Visit = { category: string | undefined; note: string; text: string; tone: ReachTone };
-const emptyVisit = (): Visit => ({ category: undefined, note: "", text: "", tone: en.reachForMe.draft.tones[0] });
+type Visit = { category: string | undefined; note: string; text: string; tone: ReachTone; hasDraft: boolean };
+const emptyVisit = (): Visit => ({ category: undefined, note: "", text: "", tone: en.reachForMe.draft.tones[0], hasDraft: false });
 const ReachContext = createContext<{
   visit: Visit;
   update: (values: Partial<Visit>) => void;

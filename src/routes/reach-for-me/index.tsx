@@ -55,7 +55,7 @@ export function ReachForMe() {
       <ReachButton
         className="mt-5"
         onClick={() => {
-          update({ text: buildReachDraft(visit.category, visit.tone, visit.note) });
+          update({ text: buildReachDraft(visit.category, visit.tone, visit.note), hasDraft: true });
           navigate({ to: "/reach-for-me/draft" });
         }}
       >

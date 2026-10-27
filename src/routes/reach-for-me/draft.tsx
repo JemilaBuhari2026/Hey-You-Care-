@@ -26,7 +26,7 @@ export const Route = createFileRoute("/reach-for-me/draft")({
 /** Nothing here is ever sent automatically. Copy and Share only act on the user's tap. */
 export function Draft() {
   const { visit, update, clear } = useReachDraft();
-  const text = visit.text || buildReachDraft(visit.category, visit.tone, visit.note);
+  const text = visit.hasDraft ? visit.text : buildReachDraft(visit.category, visit.tone, visit.note);
   const [edited, setEdited] = useState(false);
   const [pendingTone, setPendingTone] = useState<ReachTone>();
   const [status, setStatus] = useState<"idle" | "copied" | "copyFail">("idle");
@@ -39,7 +39,7 @@ export function Draft() {
 
   function rebuild(tone: ReachTone) {
     copyAttempt.current += 1;
-    update({ tone, text: buildReachDraft(visit.category, tone, visit.note) });
+    update({ tone, text: buildReachDraft(visit.category, tone, visit.note), hasDraft: true });
     setEdited(false);
     setStatus("idle");
     setPendingTone(undefined);
@@ -88,7 +88,7 @@ export function Draft() {
         value={text}
         onChange={(e) => {
           copyAttempt.current += 1;
-          update({ text: e.target.value });
+          update({ text: e.target.value, hasDraft: true });
           setEdited(true);
           setStatus("idle");
         }}
