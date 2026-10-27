@@ -1,11 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { AppShell, Notice, PlannedBadge } from "@/components/AppShell";
-import { QuickExit } from "@/components/QuickExit";
+import { createFileRoute, redirect } from "@tanstack/react-router";
+import { AppShell, Card, Notice, PlannedBadge } from "@/components/AppShell";
+import { LITTLE_LIGHTER_READY } from "@/lib/flags";
 import { en } from "@/content/en";
 
 const t = en.littleLighter;
 
 export const Route = createFileRoute("/little-lighter")({
+  beforeLoad: () => {
+    if (!LITTLE_LIGHTER_READY) throw redirect({ to: "/home" });
+  },
   head: () => ({
     meta: [
       { title: t.title },
@@ -19,26 +22,23 @@ export const Route = createFileRoute("/little-lighter")({
   component: LittleLighter,
 });
 
-const TINTS = ["bg-success/40", "bg-accent/15"] as const;
+const TINTS = ["bg-sage", "bg-peach"] as const;
 
 function LittleLighter() {
   return (
-    <AppShell>
-      <div className="flex items-center justify-between gap-2 pt-6">
-        <h1 className="text-3xl font-semibold">{t.heading}</h1>
-        <QuickExit />
-      </div>
+    <AppShell back={{ to: "/home", label: en.nav.home }}>
+      <h1 className="pt-2 text-4xl">{t.heading}</h1>
       <p className="mt-2 text-muted-foreground">{t.subheading}</p>
-      <div className="mt-8 space-y-4">
+      <div className="mt-6 space-y-4">
         {t.activities.map((a, i) => (
-          <article key={a.title} className="rounded-3xl bg-card p-5 shadow-soft">
+          <Card key={a.title}>
             <div className={`mb-4 flex h-24 items-center justify-center rounded-2xl text-5xl ${TINTS[i % TINTS.length]}`} aria-hidden>{a.emoji}</div>
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-semibold">{a.title}</h2>
+              <h2 className="text-xl">{a.title}</h2>
               <PlannedBadge label={en.common.comingSoonBadge} />
             </div>
-            <p className="mt-1 text-sm text-muted-foreground">{a.desc}</p>
-          </article>
+            <p className="mt-1 text-muted-foreground">{a.desc}</p>
+          </Card>
         ))}
       </div>
       <div className="mt-6">
