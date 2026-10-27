@@ -1,9 +1,11 @@
+import { en } from "../content/en";
+
 export function renderErrorPage(): string {
   return `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>This page didn't load</title>
+    <title>${en.error.title}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       body { font: 15px/1.5 system-ui, -apple-system, sans-serif; background: #fafafa; color: #111; display: grid; place-items: center; min-height: 100vh; margin: 0; padding: 1.5rem; }
@@ -18,12 +20,12 @@ export function renderErrorPage(): string {
   </head>
   <body>
     <div class="card">
-      <h1>This page didn't load</h1>
-      <p>Something went wrong on our end. You can try again or leave.</p>
+      <h1>${en.error.title}</h1>
+      <p>${en.error.fallbackBody}</p>
       <div class="actions">
-        <button class="primary" onclick="location.reload()">Try again</button>
-        <a class="secondary" href="/">Go home</a>
-        <a class="secondary" href="/exit.html">Exit</a>
+        <button class="primary" onclick="location.reload()">${en.error.tryAgain}</button>
+        <a class="secondary" href="/">${en.error.goHome}</a>
+        <a class="secondary" href="/exit.html">${en.error.exit}</a>
       </div>
     </div>
   </body>
