@@ -1,3 +1,50 @@
+
+# Hey! You Care
+
+A culturally responsive emotional-support and care-navigation web app for pregnant women and mothers in the first year after birth, starting in Nigeria.
+
+> Feel heard. Find support. Take your next step.
+
+**Status:** Working prototype (not yet a real-user MVP). Not a therapist, doctor, midwife or emergency service. It does not diagnose or treat any condition.
+
+## What works now
+- Eight screens, mobile-first, with a consent gate and Quick Exit
+- "Reach for me": 32 message templates with editable drafts to ask trusted people for support (copy/share only; nothing is sent automatically)
+- Privacy-safe error handling
+- 60 automated tests
+
+## In progress
+- AI conversation ("Talk to me"), not yet connected
+- Verified Nigerian support services and hotlines ("Find Support")
+- Clinical, safety and privacy review of all wording
+- Accounts and database
+- Nigerian Pidgin version
+- "Little Lighter" activities (coming soon)
+
+## Privacy and safety
+No real users' sensitive conversations are stored. No secrets in frontend code.
+
+## Run locally
+npm install
+npm run dev
+
+## Licence
+[Add your chosen open-source licence, e.g. MIT]
+
+Built by Hey You Global Wellness Limited
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Hey You Care 
 
 PROJECT: HEY! YOU CARE
